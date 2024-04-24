@@ -4,10 +4,11 @@ import { unstable_noStore as noStore } from 'next/cache';
 
 export async function fetchTaskToday() {
   noStore();
+
   const date = new Date().toLocaleDateString();
   const dateArray = date.split('/')
   const today = `${dateArray[2]}-${dateArray[1]}-${dateArray[0]}`
-
+  
   console.log("fetching data")
 
   try {
