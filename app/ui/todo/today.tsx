@@ -1,9 +1,9 @@
 import { PlusIcon } from '@heroicons/react/24/outline';
 import { outfit } from '@/app/ui/font';
-import TaskListToday from './today-task-list';
+import { TaskListToday } from './today-task-list';
 import Link from 'next/link';
 
-export default function TodayTodoList() {
+export default async function TodayTodoList() {
   return(
     <>
       <Link 

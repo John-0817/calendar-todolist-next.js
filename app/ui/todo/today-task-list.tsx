@@ -8,9 +8,8 @@ import { lists } from '@/app/lib/list-asset';
 import Button from './button';
 import Link from 'next/link';
 
-export default async function TaskListToday() {
+export async function TaskListToday() {
   const taskForToday = await fetchTaskToday();
-  console.log(taskForToday);
   return(
     <>
       {taskForToday.map((task) => {
@@ -23,9 +22,6 @@ export default async function TaskListToday() {
         const task_done = task.done;
         const list = lists.find(item => item.title === task_list);
         const list_color = list?.color;
-
-        console.log("task done type: ", typeof task_done);
-        
         return(
           <Link 
             key={task_id} 
