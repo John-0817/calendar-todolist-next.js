@@ -8,6 +8,8 @@ export async function fetchTaskToday() {
   const dateArray = date.split('/')
   const today = `${dateArray[2]}-${dateArray[1]}-${dateArray[0]}`
 
+  console.log("fetching data")
+
   try {
     const data = await sql<Task>`
       SELECT * 
