@@ -72,7 +72,7 @@ export async function deleteTask( task_id: string, path: string ) {
 
   if (path === 'today') {
     revalidatePath('/todo/today');
-    redirect('/todo/today');
+    redirect('/todo/today' );
   }
 };
 
