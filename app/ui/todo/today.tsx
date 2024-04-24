@@ -14,7 +14,6 @@ export default function TodayTodoList() {
         <p className={`${outfit.className} text-sm text-gray-400`}>Add New Task</p>
       </Link>
       <div className='divide-y'>
-        <p>tasklisttoday</p>
         <TaskListToday />
       </div>
     </>

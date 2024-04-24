@@ -22,6 +22,5 @@ export async function fetchTaskToday() {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error(`Failed to fetch today's task data.`);
-
   }
 }
