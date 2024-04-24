@@ -12,6 +12,7 @@ export async function TaskListToday() {
   const taskForToday = await fetchTaskToday();
   return(
     <>
+      <p>inside</p>
       {taskForToday.map((task) => {
         const task_id = task.id;
         const task_title = task.title;
