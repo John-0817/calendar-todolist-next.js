@@ -10,7 +10,7 @@ import Link from 'next/link';
 
 export default async function TaskListToday() {
   const taskForToday = await fetchTaskToday();
-  
+  console.log(taskForToday);
   return(
     <>
       {taskForToday.map((task) => {
