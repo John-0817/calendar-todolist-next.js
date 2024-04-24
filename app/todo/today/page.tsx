@@ -1,7 +1,7 @@
 import { outfit } from '@/app/ui/font'
 import TodayTodoList from '@/app/ui/todo/today'
 
-export default async function Today() {
+export default function Today() {
 
   return (
     <main className='grow flex flex-col'>
