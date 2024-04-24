@@ -14,6 +14,7 @@ export async function TaskListToday() {
   return(
     <>
       <p>inside</p>
+      <p>{taskForToday.toString()}</p>
       {taskForToday.map((task) => {
         const task_id = task.id;
         const task_title = task.title;
