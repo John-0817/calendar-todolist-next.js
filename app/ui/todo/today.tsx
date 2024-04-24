@@ -4,7 +4,6 @@ import TaskListToday from './today-task-list';
 import Link from 'next/link';
 
 export default function TodayTodoList() {
-
   return(
     <>
       <Link 
