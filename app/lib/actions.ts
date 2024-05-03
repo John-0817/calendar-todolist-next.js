@@ -35,10 +35,8 @@ export async function createTask( path: string, formData: FormData ) {
     VALUES (${title}, ${description}, ${list}, ${date}, ${timestamp})
   `;
 
-  if (path === 'today') {
-    revalidatePath('/todo/today');
-    redirect('/todo/today');
-  }
+  revalidatePath(`/todo/${path}`);
+  redirect(`/todo/${path}`);
 };
 
 export async function updateTask( task_id: string, task_timestamp: string, task_done: boolean, path: string, formData: FormData ) {
@@ -61,73 +59,24 @@ export async function updateTask( task_id: string, task_timestamp: string, task_
     WHERE id = ${id}
   `;
 
-  if (path === 'today') {
-    revalidatePath('/todo/today');
-    redirect('/todo/today');
-  }
+  revalidatePath(`/todo/${path}`);
+  redirect(`/todo/${path}`);
 };
 
 export async function deleteTask( task_id: string, path: string ) {
   await sql`DELETE FROM task WHERE id = ${task_id}`;
 
-  if (path === 'today') {
-    revalidatePath('/todo/today');
-    redirect('/todo/today');
-  }
+  revalidatePath(`/todo/${path}`);
+  redirect(`/todo/${path}`);
 };
 
-interface SearchParamsObjects{
-  title?: string;
-  description?: string;
-  list?: string;
-  date?: string;
-  timestamp?: string;
-  done?: boolean;
-}
-
-export async function updateState(task_id: string, done: boolean, path: string, searchParams: SearchParamsObjects) {
+export async function updateState(task_id: string, done: boolean, path: string) {
   await sql`
     UPDATE task
-    SET done = ${!done}
+    SET done = ${done}
     WHERE id = ${task_id}
   `;
 
-  const urlPath = new URLSearchParams();
-
-  let urlFullPath = `${path}?`
-  const addParam = (key: string, value?: string | boolean) => {
-    console.log(value)
-    if (value !== undefined) {
-      if (urlFullPath.length > path.length + 1) {
-        urlFullPath += '&';
-      }
-      urlFullPath += `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
-    }
-  };
-
-  if (Object.keys(searchParams).length !== 0 && path.includes(`${task_id}`)) {
-
-    addParam('title', searchParams.title);
-    addParam('description', searchParams.description);
-    addParam('list', searchParams.list);
-    addParam('date', searchParams.date);
-    addParam('timestamp', searchParams.timestamp);
-    addParam('done', !(searchParams.done));
-    
-    revalidatePath(path);
-    // redirect(urlFullPath)
-  } else if (Object.keys(searchParams).length !== 0) {
-    addParam('title', searchParams.title);
-    addParam('description', searchParams.description);
-    addParam('list', searchParams.list);
-    addParam('date', searchParams.date);
-    addParam('timestamp', searchParams.timestamp);
-    addParam('done', searchParams.done);
-    
-    revalidatePath(path);
-    // redirect(urlFullPath)
-  } else {
-    revalidatePath(path);
-    redirect(path);
-  }
+  revalidatePath(path);
+  redirect(path);
 }

@@ -1,7 +1,7 @@
 import { outfit } from '@/app/ui/font';
-import TodayTodoList from '@/app/ui/todo/today';
-import TomorrowTodoList from '@/app/ui/todo/tomorrow';
-import ThisWeekTodoList from '@/app/ui/todo/this-week';
+import { UpcomingTodayTodoList } from '@/app/ui/todo/today';
+import UpcomingTomorrowTodoList from '@/app/ui/todo/tomorrow';
+import UpcomingThisWeekTodoList from '@/app/ui/todo/this-week';
 
 export default function Upcoming() {
 
@@ -15,20 +15,20 @@ export default function Upcoming() {
           <h2 className={`${outfit.className} mb-4 text-xl font-semibold`}>
           Today
           </h2>
-          <TodayTodoList />
+          <UpcomingTodayTodoList />
         </div>
         <div className='basis-1/2 grid grid-cols-2 gap-6'>
           <div className='p-4 rounded border'>
             <h2 className={`${outfit.className} mb-4 text-xl font-semibold`}>
               Tomorrow
             </h2>
-            <TomorrowTodoList />  
+            <UpcomingTomorrowTodoList />  
           </div>
           <div className='p-4 rounded border'>
             <h2 className={`${outfit.className} mb-4 text-xl font-semibold`}>
               This Week
             </h2>
-            <ThisWeekTodoList />
+            <UpcomingThisWeekTodoList />
           </div>
         </div>
       </div>

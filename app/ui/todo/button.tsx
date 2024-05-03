@@ -5,29 +5,23 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { updateState } from '@/app/lib/actions';
 
 export default function Button({ taskId, taskDone }: { taskId: string, taskDone: boolean }) {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  let params = {};
+  let pathname = usePathname();
+  const searchParams = useSearchParams().toString();
+
   if (pathname.includes('/task/')) {
-    params = {
-      title: searchParams.get('title'),
-      description: searchParams.get('description'),
-      list: searchParams.get('list'),
-      date: searchParams.get('date'),
-      timestamp: searchParams.get('timestamp'),
-      done: searchParams.get('done'),
-    }
+    let updatedSearchParams = searchParams.replace(`&done=${taskDone}`, `&done=${!taskDone}`);
+    pathname += `?${updatedSearchParams}`;
   }
 
   function handleCLick(id: string, done: boolean) {
-    updateState(id, done, pathname, params);
+    updateState(id, done, pathname);
   }
   return (
     <button 
       onClick={(event) => {
         event.preventDefault();
         event.stopPropagation();
-        handleCLick(taskId, taskDone);
+        handleCLick(taskId, !taskDone);
      }}
     > 
       {taskDone

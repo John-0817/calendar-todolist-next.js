@@ -1,9 +1,9 @@
 import { outfit } from '@/app/ui/font'
-import TodayTodoList from '@/app/ui/todo/today'
+import { TodayTodoList } from '@/app/ui/todo/today'
 import { TaskDetail } from '@/app/ui/todo/tasks'
 
 export default function TaskDetailPage( { params, searchParams }: { params: any, searchParams: any } ) {
-  const path = 'today'
+  const path = 'today';
   const done = searchParams.done === 'true';
 
   return (

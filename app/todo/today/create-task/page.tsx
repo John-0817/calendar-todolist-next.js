@@ -1,5 +1,5 @@
 import { outfit } from '@/app/ui/font'
-import TodayTodoList from '@/app/ui/todo/today'
+import { TodayTodoList } from '@/app/ui/todo/today'
 import { AddNewTaskToday } from '@/app/ui/todo/tasks'
 
 export default function createTask() {
