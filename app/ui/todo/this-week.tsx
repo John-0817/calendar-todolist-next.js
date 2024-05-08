@@ -7,8 +7,8 @@ export default function UpcomingThisWeekTodoList() {
   return(
     <>
       <Link 
-        href={'/todo/upcoming/create-task/this-week'}
-        className='flex flex-row w-full p-2 items-center rounded border'
+        href={'/todo/overview/create-task/this-week'}
+        className='flex flex-row w-full mt-1 p-2 items-center rounded border'
       >
         <PlusIcon className='w-4 text-gray-400 mr-2'/>
         <p className={`${outfit.className} text-sm text-gray-400`}>Add New Task</p>

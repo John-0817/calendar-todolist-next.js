@@ -200,7 +200,7 @@ export async function UpcomingTaskListThisWeek() {
           <Link 
             key={task_id} 
             href={{
-              pathname: `/todo/upcoming/task/this-week/${task_id}`,
+              pathname: `/todo/overview/task/this-week/${task_id}`,
               query: {
                 title: task_title,
                 description: task_description,
