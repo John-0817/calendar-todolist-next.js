@@ -1,6 +1,6 @@
 import { outfit } from '@/app/ui/font'
 import { TodayTodoList } from '@/app/ui/todo/today'
-import { AddNewTaskToday } from '@/app/ui/todo/tasks'
+import { AddNewTask } from '@/app/ui/todo/tasks'
 
 export default function createTask() {
   const path = 'today'
@@ -17,7 +17,7 @@ export default function createTask() {
         </div>
         {/* Add new task */}
         <div className='grow flex flex-col p-3 rounded bg-gray-100'>
-          <AddNewTaskToday path={path} />
+          <AddNewTask path={path} />
         </div>
       </div>
     </main>

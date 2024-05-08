@@ -1,6 +1,6 @@
 import { outfit } from '@/app/ui/font'
 import { UpcomingTodayTodoList } from '@/app/ui/todo/today'
-import { TaskDetail } from '@/app/ui/todo/tasks'
+import { ThisWeekTaskDetail } from '@/app/ui/todo/tasks'
 import UpcomingTomorrowTodoList from '@/app/ui/todo/tomorrow';
 import UpcomingThisWeekTodoList from '@/app/ui/todo/this-week';
 
@@ -38,7 +38,7 @@ export default function TaskDetailPage( { params, searchParams }: { params: any,
         </div>
         {/* Edit task */}
         <div className='grow flex flex-col p-3 rounded bg-gray-100'>
-          <TaskDetail 
+          <ThisWeekTaskDetail 
             path={path} 
             task_id={params.taskId}
             title={searchParams.title} 

@@ -1,8 +1,8 @@
 import { outfit } from '@/app/ui/font'
 import { UpcomingTodayTodoList } from '@/app/ui/todo/today'
 import UpcomingTomorrowTodoList from '@/app/ui/todo/tomorrow';
-import ThisWeekTodoList from '@/app/ui/todo/this-week';
-import { AddNewTaskToday } from '@/app/ui/todo/tasks'
+import UpcomingThisWeekTodoList from '@/app/ui/todo/this-week';
+import { AddNewTask } from '@/app/ui/todo/tasks'
 
 export default function createTask() {
   const path = 'upcoming'
@@ -31,14 +31,14 @@ export default function createTask() {
                 <h2 className={`${outfit.className} mb-4 text-xl font-semibold`}>
                   This Week
                 </h2>
-                <ThisWeekTodoList />
+                <UpcomingThisWeekTodoList />
               </div>
             </div>
           </div>
         </div>
         {/* Add new task */}
         <div className='grow flex flex-col p-3 rounded bg-gray-100'>
-          <AddNewTaskToday path={path} />
+          <AddNewTask path={path} />
         </div>
       </div>
     </main>
