@@ -13,10 +13,10 @@ import { lists } from '@/app/lib/list-asset';
 import clsx from 'clsx'
 
 const taskLinks = [
-  {name: 'Upcoming', href: '/todo/upcoming', icon: ChevronDoubleRightIcon},
+  {name: 'Overview', href: '/todo/overview', icon: ChevronDoubleRightIcon},
   {name: 'Today', href: '/todo/today', icon: ListBulletIcon},
   {name: 'Calendar', href: '/todo/calendar', icon: CalendarDaysIcon},
-  {name: 'Sticky Wall', href: '/todo/sticky-wall', icon: HashtagIcon},
+  // {name: 'Sticky Wall', href: '/todo/sticky-wall', icon: HashtagIcon},
 ];
 const listLinks = [
   {name: 'Personal', href: '/todo/personal', icon: ChevronDoubleRightIcon},

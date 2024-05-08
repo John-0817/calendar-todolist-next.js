@@ -12,7 +12,6 @@ export type Task = {
   date: Date,
   timestamp: string,
   done: boolean,
-  // subtasks: Subtask[],
 };
 
 export type WeeklyTask = {

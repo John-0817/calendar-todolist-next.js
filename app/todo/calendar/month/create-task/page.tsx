@@ -1,18 +1,14 @@
 import { outfit } from '@/app/ui/font';
-import CalendarLink from '@/app/ui/todo/calendar-link';
-import { fetchTaskThisWeek } from '@/app/lib/data';
-import RenderTaskDetail from '@/app/ui/todo/calendar-week';
-import { AddNewTaskThisWeek } from '@/app/ui/todo/tasks';
+import CalendarNav from '@/app/ui/todo/calendar-link';
+import RenderThisMonthTaskDetail from '@/app/ui/todo/calendar-month';
 import Link from 'next/link';
-import clsx from 'clsx';
+import  { AddNewTaskThisMonth } from '@/app/ui/todo/tasks';
 
-export default async function Page() {
-  const taskForTomorrow = await fetchTaskThisWeek();
-  const today = new Date().getDay();
-  const path = 'calendar/week';
+export default function Page() {
+  const path = 'calendar/month';
 
   return(
-    <main className='grow flex flex-col'>
+    <main className={`${outfit.className} grow flex flex-col`}>
       <div className='grow flex grid grid-cols-3 gap-6'>
         <div className='grow flex flex-col col-span-2'>
           <div className='flex flex-row justify-between items-center'>
@@ -25,7 +21,7 @@ export default async function Page() {
             </Link>
           </div>
           <div className='grow flex flex-col'>
-            <CalendarLink />
+            <CalendarNav />
             <div className='mt-4 text-sm font-semibold grid grid-cols-7'>
               <div className='pt-2 pl-2'>SUN</div>
               <div className='pt-2 pl-2'>MON</div>
@@ -34,13 +30,16 @@ export default async function Page() {
               <div className='pt-2 pl-2'>THU</div>
               <div className='pt-2 pl-2'>FRI</div>
               <div className='pt-2 pl-2'>SAT</div>
-            </div>   
+            </div>
+            <div className='grow flex flex-col mt-2 grid grid-cols-7 grid-rows-6'>
+              <RenderThisMonthTaskDetail />
+            </div>
           </div>
 
         </div>
         {/* Add new task */}
         <div className='grow flex flex-col p-3 rounded bg-gray-100'>
-        <AddNewTaskThisWeek path={path} />
+        <AddNewTaskThisMonth path={path} />
         </div>
       </div>
     </main>

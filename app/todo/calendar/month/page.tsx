@@ -1,14 +1,12 @@
 import { outfit } from '@/app/ui/font';
-import CalendarLink from '@/app/ui/todo/calendar-link';
-import { fetchTaskThisWeek } from '@/app/lib/data';
-import RenderTaskDetail from '@/app/ui/todo/calendar-week';
+import CalendarNav from '@/app/ui/todo/calendar-link';
+import RenderThisMonthTaskDetail from '@/app/ui/todo/calendar-month';
 import Link from 'next/link';
 
-export default async function Calendar() {
-  const taskForThisMonth = await fetchTaskThisWeek();
+export default function Month() {
 
   return (
-    <main className={`${outfit.className} grow flex flex-col`} >
+    <main className={`${outfit.className} grow flex flex-col`}>
       <div className='flex flex-row justify-between items-center'>
         <h1 className='text-5xl font-semibold'>Calendar</h1>
         <Link 
@@ -19,7 +17,7 @@ export default async function Calendar() {
         </Link>
       </div>
       <div className='grow flex flex-col'>
-        <CalendarLink />
+        <CalendarNav />
         <div className='mt-4 text-sm font-semibold grid grid-cols-7'>
           <div className='pt-2 pl-2'>SUN</div>
           <div className='pt-2 pl-2'>MON</div>
@@ -29,8 +27,8 @@ export default async function Calendar() {
           <div className='pt-2 pl-2'>FRI</div>
           <div className='pt-2 pl-2'>SAT</div>
         </div>
-        <div className='grow flex flex-col grid grid-cols-7 grid-rows-6'>
-        
+        <div className='grow flex flex-col mt-2 grid grid-cols-7 grid-rows-6'>
+          <RenderThisMonthTaskDetail />
         </div>   
       </div>
     </main>

@@ -24,18 +24,18 @@ export async function fetchTaskToday() {
   }
 }
 
-export async function fetchTaskThisWeek() {
+export async function fetchTaskThisWeek(date: Date) {
   noStore();
 
-  const today = new Date();
-  const weekStart = today.getDate() - today.getDay();
-  const weekEnd = weekStart + 6;
-  const lastDay = new Date(today.setDate(weekEnd)).toLocaleDateString();
-  const firstDay = new Date(today.setDate(weekStart)).toLocaleDateString();
-  const firstDayArray = firstDay.split('/');
-  const lastDayArray = lastDay.split('/');
-  const firstDate = `${firstDayArray[2]}-${firstDayArray[1]}-${firstDayArray[0]}`;
-  const lastDate = `${lastDayArray[2]}-${lastDayArray[1]}-${lastDayArray[0]}`;
+  const month = date.getMonth();
+  const year = date.getFullYear();
+  const weekStart = date.getDate() - date.getDay() < 0 ? 1 : date.getDate() - date.getDay();
+  const weekEnd = date.getDate() + 6 - date.getDay() > new Date(year, month + 1, 0).getDate() 
+  ? new Date(year, month + 1, 0).getDate() : date.getDate() + 6 - date.getDay();
+
+  const firstDate = new Date(year, month, weekStart).toISOString();
+  const lastDate = new Date(year, month, weekEnd).toISOString();
+
 
   try {
     const data = await sql<Task>`
@@ -46,6 +46,44 @@ export async function fetchTaskThisWeek() {
       `;
 
     return data.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error(`Failed to fetch today's task data.`);
+  }
+}
+
+type TaskByDate = {
+  [key: number]: Task[];
+};
+
+export async function fetchTaskThisMonth() {
+  noStore();
+
+  const thisMonth = new Date().getMonth() + 1;
+  const taskByDate: TaskByDate = {};
+
+  try {
+    const data = await sql<Task>`
+      SELECT * 
+      FROM task
+      WHERE EXTRACT (MONTH FROM date) = ${thisMonth}
+      ORDER BY date, timestamp
+      `;
+
+    data.rows.forEach(task => {
+      const taskDate = new Date(task.date);
+      const dayOfMonth = taskDate.getDate();
+
+      if (!taskByDate[dayOfMonth]) {
+        taskByDate[dayOfMonth] = [];
+      }
+
+      if (taskByDate[dayOfMonth].length < 3){
+        taskByDate[dayOfMonth].push(task);
+      }
+    });
+
+    return taskByDate;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error(`Failed to fetch today's task data.`);

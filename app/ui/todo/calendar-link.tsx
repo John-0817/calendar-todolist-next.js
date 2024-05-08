@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import clsx from 'clsx';
 
-export default function CalendarLink() {
+export default function CalendarNav() {
   const pathname = usePathname();
   console.log(pathname.includes('week'));
   return(

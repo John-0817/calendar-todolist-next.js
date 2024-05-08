@@ -1,67 +1,78 @@
 import { outfit } from '@/app/ui/font';
-import CalendarLink from '@/app/ui/todo/calendar-link';
-import { fetchTaskThisWeek } from '@/app/lib/data';
-import RenderTaskDetail from '@/app/ui/todo/calendar-week';
-import { AddNewTaskThisWeek } from '@/app/ui/todo/tasks';
+import { months } from '@/app/lib/month';
+import CalendarNav from '@/app/ui/todo/calendar-link';
+import RenderThisWeekTaskDetail from '@/app/ui/todo/calendar-week';
+import { AddNewTaskThisWeekCalendar } from '@/app/ui/todo/tasks';
 import Link from 'next/link';
 import clsx from 'clsx';
 
-export default async function Page() {
-  const taskForTomorrow = await fetchTaskThisWeek();
-  const today = new Date().getDay();
+interface Prop {
+  include: string;
+}
+
+export default function Page( { searchParams }: { searchParams: Prop } ) {
+  let date = new Date();
+  if (searchParams.include !== undefined) {
+    date = new Date(searchParams.include);
+  }
+  const month = months[date.getMonth()];
+  const year = date.getFullYear();
+
+  const weekStart = date.getDate() - date.getDay() < 0 ? 1 : date.getDate() - date.getDay();
+  const weekEnd = date.getDate() + 6 - date.getDay() > new Date(year, date.getMonth() + 1, 0).getDate() 
+    ? new Date(year, date.getMonth() + 1, 0).getDate() : date.getDate() + 6 - date.getDay();
+
+  const currentWeekStart = new Date().getDate() - new Date().getDay() < 0 ? 1 : new Date().getDate() - new Date().getDay();
+  const currentWeekEnd = new Date().getDate() + 6 - new Date().getDay() > new Date(year, date.getMonth() + 1, 0).getDate() 
+    ? new Date(year, date.getMonth() + 1, 0).getDate() : new Date().getDate() + 6 - new Date().getDay();
+
+  const today = weekStart === currentWeekStart && weekEnd === currentWeekEnd ? new Date().getDay() : null;
+  const isPast = weekStart < currentWeekStart;
   const path = 'calendar/week';
 
   return(
-    <main className='grow flex flex-col'>
+    <main className={`${outfit.className} grow flex flex-col`}>
       <div className='grow flex grid grid-cols-3 gap-6'>
         <div className='grow flex flex-col col-span-2'>
           <div className='flex flex-row justify-between items-center'>
-            <h1 className='text-5xl font-semibold'>Calendar</h1>
-            <Link 
-              href={'/todo/calendar/week/create-task'}
-              className='mr-2 p-2 border rounded'
-            >
-              Add Event
-            </Link>
+            <h1 className='text-5xl font-semibold'>{weekStart}-{weekEnd} {month} {year}</h1>
+            {isPast && (
+              <div className='mr-2 p-2 border rounded'>
+                Add Event
+              </div>
+            )}
+            {!isPast && (
+              <Link 
+                href={{
+                  pathname: '/todo/calendar/week/create-task',
+                  query: {include: date.toString()}
+                }}
+                className='mr-2 p-2 border rounded'
+              >
+                Add Event
+              </Link>
+            )}
           </div>
           <div className='grow flex flex-col'>
-            <CalendarLink />
-            <div className='grow flex flex-col mt-4 text-sm font-semibold grid grid-cols-7'>
-              <div className={clsx('pt-2 pl-2', {'bg-gray-200 rounded': today === 0},  )}>
-                <p>SUN</p>
-                <RenderTaskDetail taskList={taskForTomorrow} day={0}/>
-              </div>
-              <div className={clsx('pt-2 pl-2', {'bg-gray-200 rounded': today === 1}, {'border-l': today + 1 !== 1} )}>
-                <p>MON</p>
-                <RenderTaskDetail taskList={taskForTomorrow} day={1}/>
-              </div>
-              <div className={clsx('pt-2 pl-2', {'bg-gray-200 rounded': today === 2}, {'border-l': today + 1 !== 2} )}>
-                <p>TUE</p>
-                <RenderTaskDetail taskList={taskForTomorrow} day={2}/>
-              </div>
-              <div className={clsx('pt-2 pl-2', {'bg-gray-200 rounded': today === 3}, {'border-l': today + 1 !== 3} )}>
-                <p>WED</p>
-                <RenderTaskDetail taskList={taskForTomorrow} day={3}/>
-              </div>
-              <div className={clsx('pt-2 pl-2', {'bg-gray-200 rounded': today === 4}, {'border-l': today + 1 !== 4} )}>
-                <p>THU</p>
-                <RenderTaskDetail taskList={taskForTomorrow} day={4}/>
-              </div>
-              <div className={clsx('pt-2 pl-2', {'bg-gray-200 rounded': today === 5}, {'border-l': today + 1 !== 5} )}>
-                <p>FRI</p>
-                <RenderTaskDetail taskList={taskForTomorrow} day={5}/>
-              </div>
-              <div className={clsx('pt-2 pl-2', {'bg-gray-200 rounded': today === 6}, {'border-l': today + 1 !== 6} )}>
-                <p>SAT</p>
-                <RenderTaskDetail taskList={taskForTomorrow} day={6}/>
-              </div>
-            </div>      
+            <CalendarNav />
+            <div className='mt-4 text-sm font-semibold grid grid-cols-7'>
+              <div className={clsx('pt-2 pl-2', {'bg-gray-200 rounded-t-lg': today === 0}, )}>SUN</div>
+              <div className={clsx('pt-2 pl-2', {'bg-gray-200 rounded-t-lg': today === 1}, )}>MON</div>
+              <div className={clsx('pt-2 pl-2', {'bg-gray-200 rounded-t-lg': today === 2}, )}>TUE</div>
+              <div className={clsx('pt-2 pl-2', {'bg-gray-200 rounded-t-lg': today === 3}, )}>WED</div>
+              <div className={clsx('pt-2 pl-2', {'bg-gray-200 rounded-t-lg': today === 4}, )}>THU</div>
+              <div className={clsx('pt-2 pl-2', {'bg-gray-200 rounded-t-lg': today === 5}, )}>FRI</div>
+              <div className={clsx('pt-2 pl-2', {'bg-gray-200 rounded-t-lg': today === 6}, )}>SAT</div>
+            </div>
+            <div className='grow flex flex-col text-sm font-semibold grid grid-cols-7'>
+              <RenderThisWeekTaskDetail targetDate={date} />
+            </div>    
           </div>
 
         </div>
         {/* Add new task */}
         <div className='grow flex flex-col p-3 rounded bg-gray-100'>
-        <AddNewTaskThisWeek path={path} />
+          <AddNewTaskThisWeekCalendar path={path} date={date} />
         </div>
       </div>
     </main>
