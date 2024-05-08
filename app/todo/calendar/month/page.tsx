@@ -20,7 +20,7 @@ export default async function Calendar() {
       </div>
       <div className='grow flex flex-col'>
         <CalendarLink />
-        <div className='grow flex flex-col mt-4 text-sm font-semibold grid grid-cols-7'>
+        <div className='mt-4 text-sm font-semibold grid grid-cols-7'>
           <div className='pt-2 pl-2'>SUN</div>
           <div className='pt-2 pl-2'>MON</div>
           <div className='pt-2 pl-2'>TUE</div>
@@ -28,7 +28,10 @@ export default async function Calendar() {
           <div className='pt-2 pl-2'>THU</div>
           <div className='pt-2 pl-2'>FRI</div>
           <div className='pt-2 pl-2'>SAT</div>
-        </div>      
+        </div>
+        <div className='grow flex flex-col grid grid-cols-7 grid-rows-6'>
+        
+        </div>   
       </div>
     </main>
   )
