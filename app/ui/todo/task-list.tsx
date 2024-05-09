@@ -84,7 +84,7 @@ export async function UpcomingTaskListToday() {
           <Link 
             key={task_id} 
             href={{
-              pathname: `/todo/upcoming/task/${task_id}`,
+              pathname: `/todo/overview/task/${task_id}`,
               query: {
                 title: task_title,
                 description: task_description,
@@ -126,6 +126,7 @@ export async function UpcomingTaskListToday() {
 
 export async function UpcomingTaskListTomorrow() {
   const taskForTomorrow = await fetchUpcomingTaskTomorrow();
+  
   return(
     <>
       {taskForTomorrow.map((task) => {
@@ -142,7 +143,7 @@ export async function UpcomingTaskListTomorrow() {
           <Link 
             key={task_id} 
             href={{
-              pathname: `/todo/upcoming/task/${task_id}`,
+              pathname: `/todo/overview/task/${task_id}`,
               query: {
                 title: task_title,
                 description: task_description,

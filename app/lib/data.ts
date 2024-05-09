@@ -5,15 +5,14 @@ import { unstable_noStore as noStore } from 'next/cache';
 export async function fetchTaskToday() {
   noStore();
 
-  const date = new Date().toLocaleDateString();
-  const dateArray = date.split('/')
-  const today = `${dateArray[2]}-${dateArray[1]}-${dateArray[0]}`
+  const today = new Date().toDateString();
+
   
   try {
     const data = await sql<Task>`
       SELECT * 
       FROM task
-      WHERE date::text = ${today}
+      WHERE date = ${today}
       ORDER BY timestamp
       `;
 
@@ -33,15 +32,15 @@ export async function fetchTaskThisWeek(date: Date) {
   const weekEnd = date.getDate() + 6 - date.getDay() > new Date(year, month + 1, 0).getDate() 
   ? new Date(year, month + 1, 0).getDate() : date.getDate() + 6 - date.getDay();
 
-  const firstDate = new Date(year, month, weekStart).toISOString();
-  const lastDate = new Date(year, month, weekEnd).toISOString();
+  const firstDate = new Date(year, month, weekStart).toDateString();
+  const lastDate = new Date(year, month, weekEnd).toDateString();
 
 
   try {
     const data = await sql<Task>`
       SELECT * 
       FROM task
-      WHERE date::text >= ${firstDate} AND date::text <= ${lastDate}
+      WHERE date >= ${firstDate} AND date <= ${lastDate}
       ORDER BY date, timestamp
       `;
 
@@ -93,15 +92,13 @@ export async function fetchTaskThisMonth() {
 export async function fetchUpcomingTaskToday() {
   noStore();
 
-  const date = new Date().toLocaleDateString();
-  const dateArray = date.split('/')
-  const today = `${dateArray[2]}-${dateArray[1]}-${dateArray[0]}`
+  const today = new Date().toDateString();
   
   try {
     const data = await sql<Task>`
       SELECT * 
       FROM task
-      WHERE date::text = ${today}
+      WHERE date = ${today}
       ORDER BY timestamp
       Limit 4
       `;
@@ -116,18 +113,19 @@ export async function fetchUpcomingTaskToday() {
 export async function fetchUpcomingTaskTomorrow() {
   noStore();
 
-  const today = new Date();
-  const nextDay = new Date(today);
-  nextDay.setDate(today.getDate() + 1);
-  const date = nextDay.toLocaleDateString();
-  const dateArray = date.split('/');
-  const tomorrow = `${dateArray[2]}-${dateArray[1]}-${dateArray[0]}`;
+  const date = new Date();
+  const month = date.getMonth();
+  const year = date.getFullYear();
+
+  const tomorrowDate = date.getDate() + 1;
+
+  const tomorrow = new Date(year, month, tomorrowDate).toDateString();
   
   try {
     const data = await sql<Task>`
       SELECT * 
       FROM task
-      WHERE date::text = ${tomorrow}
+      WHERE date = ${tomorrow}
       ORDER BY timestamp
       Limit 3
       `;
@@ -149,14 +147,14 @@ export async function fetchUpcomingTaskThisWeek() {
   const weekEnd = date.getDate() + 6 - date.getDay() > new Date(year, month + 1, 0).getDate() 
   ? new Date(year, month + 1, 0).getDate() : date.getDate() + 6 - date.getDay();
 
-  const firstDate = new Date(year, month, weekStart).toISOString();
-  const lastDate = new Date(year, month, weekEnd).toISOString();
+  const firstDate = new Date(year, month, weekStart).toDateString();
+  const lastDate = new Date(year, month, weekEnd).toDateString();
 
   try {
     const data = await sql<Task>`
       SELECT * 
       FROM task
-      WHERE date::text >= ${firstDate} AND date::text <= ${lastDate}
+      WHERE date >= ${firstDate} AND date <= ${lastDate}
       ORDER BY date, timestamp
       Limit 3
       `;

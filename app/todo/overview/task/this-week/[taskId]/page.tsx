@@ -12,7 +12,7 @@ export default function TaskDetailPage({ params, searchParams }: { params: any, 
   return (
     <main className='grow flex flex-col'>
       <div className='grow flex grid grid-cols-3 gap-6'>
-        <div className='col-span-2'>
+        <div className='grow flex flex-col col-span-2'>
           <h1 className={`${outfit.className} mb-8 text-5xl font-semibold`}>
             Overview
           </h1>
