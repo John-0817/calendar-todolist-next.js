@@ -13,7 +13,7 @@ export default function UpcomingTomorrowTodoList() {
         <PlusIcon className='w-4 text-gray-400 mr-2'/>
         <p className={`${outfit.className} text-sm text-gray-400`}>Add New Task</p>
       </Link>
-      <div className='divide-y'>
+      <div className='mt-2 divide-y'>
         <UpcomingTaskListTomorrow />
       </div>
     </>

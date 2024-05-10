@@ -6,7 +6,6 @@ export async function fetchTaskToday() {
   noStore();
 
   const today = new Date().toDateString();
-
   
   try {
     const data = await sql<Task>`
@@ -160,6 +159,77 @@ export async function fetchUpcomingTaskThisWeek() {
       `;
 
     return data.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error(`Failed to fetch today's task data.`);
+  }
+}
+
+export async function fetchTaskByList(list: string) {
+  noStore();
+
+  try {
+    const data = await sql<Task>`
+      SELECT * 
+      FROM task
+      WHERE list = ${list}
+      ORDER BY date, timestamp
+      `;
+
+    return data.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error(`Failed to fetch today's task data.`);
+  }
+}
+
+export async function fetchTaskByListPage(list: string) {
+  noStore();
+
+  try {
+    const count = await sql`
+      SELECT COUNT(*) 
+      FROM task
+      WHERE list = ${list}
+      `;
+
+    const totalPages = Math.ceil(Number(count.rows[0].count) / 10);
+
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error(`Failed to fetch today's task data.`);
+  }
+}
+
+export async function fetchTaskByListPagination(list: string) {
+  noStore();
+
+  const taskByPagination: TaskByDate = {};
+  let page = 1;
+
+  try {
+    const data = await sql<Task>`
+      SELECT * 
+      FROM task
+      WHERE list = ${list}
+      ORDER BY date, timestamp
+      `;
+
+    data.rows.forEach(task => {
+
+      if (!taskByPagination[page]) {
+        taskByPagination[page] = [];
+      }
+
+      if (taskByPagination[page].length < 10){
+        taskByPagination[page].push(task);
+        if (taskByPagination[page].length === 10) {
+          page++;
+        } 
+      }
+    });
+    return taskByPagination;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error(`Failed to fetch today's task data.`);
