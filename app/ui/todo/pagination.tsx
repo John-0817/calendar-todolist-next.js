@@ -24,6 +24,15 @@ export function PaginationByList({totalPages, currentPage}: {totalPages: number[
         isDisabled={currentPage <= 1}
       />
 
+      {totalPages.map((page, index) => (
+        <PaginationNumber 
+          key={index}
+          page={page}
+          href={createPageURL(page)}
+          isActive={currentPage === page}
+        />
+      ))}
+
       <PaginationArrow
         direction="right"
         href={createPageURL(currentPage + 1)}
@@ -33,12 +42,40 @@ export function PaginationByList({totalPages, currentPage}: {totalPages: number[
   )
 }
 
+function PaginationNumber({
+  page,
+  href,
+  isActive,
+}: {
+  page: number | string;
+  href: string;
+  isActive: boolean;
+}) {
+  const className = clsx(
+    'flex h-10 w-10 items-center justify-center text-sm border',
+    {
+      'z-10 bg-blue-600 border-blue-600 text-white': isActive,
+      'hover:bg-gray-100': !isActive,
+    },
+  );
+
+  return isActive ? (
+    <div className={className}>{page}</div>
+  ) : (
+    <Link href={href} className={className}>
+      {page}
+    </Link>
+  );
+}
+
 function PaginationArrow({href, direction, isDisabled}: {href: string, direction: 'left' | 'right', isDisabled: boolean}) {
   const className = clsx(
     'flex h-10 w-10 items-center justify-center rounded border',
     {
-      'mr-2': direction === 'left',
-      'ml-2': direction === 'right',
+      'mr-2': direction === 'left' && isDisabled,
+      'mr-2 hover:bg-gray-100': direction === 'left' && !isDisabled,
+      'ml-2': direction === 'right' && isDisabled,
+      'ml-2 hover:bg-gray-100': direction === 'right' && !isDisabled,
     },
   );
   
